@@ -1,6 +1,7 @@
 package controllers;
 
 import dtos.UserInputDTO;
+import dtos.UserOutputDTO;
 import entities.User;
 import repositories.interfaces.IUserRepository;
 
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.LinkedList;
 import java.util.List;
 
 @Path("users")
@@ -55,7 +57,16 @@ public class UserController {
     @GET
     public Response getAllUsers() {
         List<User> users = userRepo.getAll();
-        return Response.ok(users).build();
+        List<UserOutputDTO> usersOutput = new LinkedList<>();
+        for (User user : users) {
+            UserOutputDTO userOutput = new UserOutputDTO(
+                    user.getName(),
+                    user.getSurname(),
+                    user.getGender()
+            );
+            usersOutput.add(userOutput);
+        }
+        return Response.ok(usersOutput).build();
     }
 
     @GET

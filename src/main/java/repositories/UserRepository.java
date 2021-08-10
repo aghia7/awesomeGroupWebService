@@ -5,6 +5,8 @@ import entities.User;
 import repositories.interfaces.IUserRepository;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.ServerErrorException;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -111,7 +113,7 @@ public class UserRepository implements IUserRepository {
             return users;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw new BadRequestException("Request has mistakes");
         }
-        return null;
     }
 }
